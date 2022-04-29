@@ -179,6 +179,7 @@ type fieldError struct {
 	param          string
 	kind           reflect.Kind
 	typ            reflect.Type
+	tip            string
 }
 
 // Tag returns the validation tag that failed.
@@ -251,7 +252,11 @@ func (fe *fieldError) Type() reflect.Type {
 
 // Error returns the fieldError's error message
 func (fe *fieldError) Error() string {
-	return fmt.Sprintf(fieldErrMsg, fe.ns, fe.Field(), fe.tag)
+	if fe.tip != "" {
+		return fe.tip
+	} else {
+		return fmt.Sprintf(fieldErrMsg, fe.ns, fe.Field(), fe.tag)
+	}
 }
 
 // Translate returns the FieldError's translated error

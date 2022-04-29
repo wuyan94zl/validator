@@ -14,6 +14,7 @@ import (
 
 const (
 	defaultTagName        = "validate"
+	defaultTipName        = "tip"
 	utf8HexComma          = "0x2C"
 	utf8Pipe              = "0x7C"
 	tagSeparator          = ","
@@ -49,8 +50,6 @@ const (
 var (
 	timeDurationType = reflect.TypeOf(time.Duration(0))
 	timeType         = reflect.TypeOf(time.Time{})
-
-	defaultCField = &cField{namesEqual: true}
 )
 
 // FilterFunc is the type used to filter fields using
@@ -75,6 +74,7 @@ type internalValidationFuncWrapper struct {
 // Validate contains the validator settings and cache
 type Validate struct {
 	tagName          string
+	tipName          string
 	pool             *sync.Pool
 	hasCustomFuncs   bool
 	hasTagNameFunc   bool
@@ -103,6 +103,7 @@ func New() *Validate {
 
 	v := &Validate{
 		tagName:     defaultTagName,
+		tipName:     defaultTipName,
 		aliases:     make(map[string]string, len(bakedInAliases)),
 		validations: make(map[string]internalValidationFuncWrapper, len(bakedInValidators)),
 		tagCache:    tc,
@@ -145,6 +146,20 @@ func New() *Validate {
 // SetTagName allows for changing of the default tag name of 'validate'
 func (v *Validate) SetTagName(name string) {
 	v.tagName = name
+}
+
+// SetTipName allows for changing of the default tip name of 'validate'
+func (v *Validate) SetTipName(name string) {
+	v.tipName = name
+}
+
+// SetTipName allows for changing of the default tip name of 'validate'
+func (v *Validate) defaultCField(tip ...string) *cField {
+	tipValue := ""
+	if len(tip) > 0 {
+		tipValue = tip[0]
+	}
+	return &cField{namesEqual: true, tip: tipValue}
 }
 
 // ValidateMapCtx validates a map using a map of validation rules and allows passing of contextual
@@ -567,8 +582,8 @@ func (v *Validate) StructExceptCtx(ctx context.Context, s interface{}, fields ..
 // It returns InvalidValidationError for bad values passed in and nil or ValidationErrors as error otherwise.
 // You will need to assert the error if it's not nil eg. err.(validator.ValidationErrors) to access the array of errors.
 // validate Array, Slice and maps fields which may contain more than one error
-func (v *Validate) Var(field interface{}, tag string) error {
-	return v.VarCtx(context.Background(), field, tag)
+func (v *Validate) Var(field interface{}, tag string, tip ...string) error {
+	return v.VarCtx(context.Background(), field, tag, tip...)
 }
 
 // VarCtx validates a single variable using tag style validation and allows passing of contextual
@@ -585,7 +600,7 @@ func (v *Validate) Var(field interface{}, tag string) error {
 // It returns InvalidValidationError for bad values passed in and nil or ValidationErrors as error otherwise.
 // You will need to assert the error if it's not nil eg. err.(validator.ValidationErrors) to access the array of errors.
 // validate Array, Slice and maps fields which may contain more than one error
-func (v *Validate) VarCtx(ctx context.Context, field interface{}, tag string) (err error) {
+func (v *Validate) VarCtx(ctx context.Context, field interface{}, tag string, tip ...string) (err error) {
 	if len(tag) == 0 || tag == skipValidationTag {
 		return nil
 	}
@@ -595,7 +610,7 @@ func (v *Validate) VarCtx(ctx context.Context, field interface{}, tag string) (e
 	vd := v.pool.Get().(*validate)
 	vd.top = val
 	vd.isPartial = false
-	vd.traverseField(ctx, val, val, vd.ns[0:0], vd.actualNs[0:0], defaultCField, ctag)
+	vd.traverseField(ctx, val, val, vd.ns[0:0], vd.actualNs[0:0], v.defaultCField(tip...), ctag)
 
 	if len(vd.errs) > 0 {
 		err = vd.errs
@@ -638,7 +653,7 @@ func (v *Validate) VarWithValue(field interface{}, other interface{}, tag string
 // It returns InvalidValidationError for bad values passed in and nil or ValidationErrors as error otherwise.
 // You will need to assert the error if it's not nil eg. err.(validator.ValidationErrors) to access the array of errors.
 // validate Array, Slice and maps fields which may contain more than one error
-func (v *Validate) VarWithValueCtx(ctx context.Context, field interface{}, other interface{}, tag string) (err error) {
+func (v *Validate) VarWithValueCtx(ctx context.Context, field interface{}, other interface{}, tag string, tip ...string) (err error) {
 	if len(tag) == 0 || tag == skipValidationTag {
 		return nil
 	}
@@ -647,7 +662,7 @@ func (v *Validate) VarWithValueCtx(ctx context.Context, field interface{}, other
 	vd := v.pool.Get().(*validate)
 	vd.top = otherVal
 	vd.isPartial = false
-	vd.traverseField(ctx, otherVal, reflect.ValueOf(field), vd.ns[0:0], vd.actualNs[0:0], defaultCField, ctag)
+	vd.traverseField(ctx, otherVal, reflect.ValueOf(field), vd.ns[0:0], vd.actualNs[0:0], v.defaultCField(tip...), ctag)
 
 	if len(vd.errs) > 0 {
 		err = vd.errs
