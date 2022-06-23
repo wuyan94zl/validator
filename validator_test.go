@@ -4309,6 +4309,365 @@ func TestULIDValidation(t *testing.T) {
 	}
 }
 
+func TestMD4Validation(t *testing.T) {
+	tests := []struct {
+		param    string
+		expected bool
+	}{
+		{"", false},
+		{"6f5902ac237024bdd0c176cb93063dc4", true},
+		{"6f5902ac237024bdd0c176cb93063dc-", false},
+		{"6f5902ac237024bdd0c176cb93063dc41", false},
+		{"6f5902ac237024bdd0c176cb93063dcC", false},
+		{"6f5902ac237024bdd0c176cb93063dc", false},
+	}
+
+	validate := New()
+
+	for i, test := range tests {
+
+		errs := validate.Var(test.param, "md4")
+
+		if test.expected {
+			if !IsEqual(errs, nil) {
+				t.Fatalf("Index: %d MD4 failed Error: %s", i, errs)
+			}
+		} else {
+			if IsEqual(errs, nil) {
+				t.Fatalf("Index: %d MD4 failed Error: %s", i, errs)
+			} else {
+				val := getError(errs, "", "")
+				if val.Tag() != "md4" {
+					t.Fatalf("Index: %d MD4 failed Error: %s", i, errs)
+				}
+			}
+		}
+	}
+}
+
+func TestMD5Validation(t *testing.T) {
+	tests := []struct {
+		param    string
+		expected bool
+	}{
+		{"", false},
+		{"6f5902ac237024bdd0c176cb93063dc4", true},
+		{"6f5902ac237024bdd0c176cb93063dc-", false},
+		{"6f5902ac237024bdd0c176cb93063dc41", false},
+		{"6f5902ac237024bdd0c176cb93063dcC", false},
+		{"6f5902ac237024bdd0c176cb93063dc", false},
+	}
+
+	validate := New()
+
+	for i, test := range tests {
+
+		errs := validate.Var(test.param, "md5")
+
+		if test.expected {
+			if !IsEqual(errs, nil) {
+				t.Fatalf("Index: %d MD5 failed Error: %s", i, errs)
+			}
+		} else {
+			if IsEqual(errs, nil) {
+				t.Fatalf("Index: %d MD5 failed Error: %s", i, errs)
+			} else {
+				val := getError(errs, "", "")
+				if val.Tag() != "md5" {
+					t.Fatalf("Index: %d MD5 failed Error: %s", i, errs)
+				}
+			}
+		}
+	}
+}
+
+func TestSHA256Validation(t *testing.T) {
+	tests := []struct {
+		param    string
+		expected bool
+	}{
+		{"", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc4", true},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc-", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc41", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dcC", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc", false},
+	}
+
+	validate := New()
+
+	for i, test := range tests {
+
+		errs := validate.Var(test.param, "sha256")
+		if test.expected {
+			if !IsEqual(errs, nil) {
+				t.Fatalf("Index: %d SHA256 failed Error: %s", i, errs)
+			}
+		} else {
+			if IsEqual(errs, nil) {
+				t.Fatalf("Index: %d SHA256 failed Error: %s", i, errs)
+			} else {
+				val := getError(errs, "", "")
+				if val.Tag() != "sha256" {
+					t.Fatalf("Index: %d SHA256 failed Error: %s", i, errs)
+				}
+			}
+		}
+	}
+}
+
+func TestSHA384Validation(t *testing.T) {
+	tests := []struct {
+		param    string
+		expected bool
+	}{
+		{"", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc4", true},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc-", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc41", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dcC", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc", false},
+	}
+
+	validate := New()
+
+	for i, test := range tests {
+
+		errs := validate.Var(test.param, "sha384")
+
+		if test.expected {
+			if !IsEqual(errs, nil) {
+				t.Fatalf("Index: %d SHA384 failed Error: %s", i, errs)
+			}
+		} else {
+			if IsEqual(errs, nil) {
+				t.Fatalf("Index: %d SHA384 failed Error: %s", i, errs)
+			} else {
+				val := getError(errs, "", "")
+				if val.Tag() != "sha384" {
+					t.Fatalf("Index: %d SHA384 failed Error: %s", i, errs)
+				}
+			}
+		}
+	}
+}
+
+func TestSHA512Validation(t *testing.T) {
+	tests := []struct {
+		param    string
+		expected bool
+	}{
+		{"", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc4", true},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc-", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc41", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dcC", false},
+		{"6f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc46f5902ac237024bdd0c176cb93063dc", false},
+	}
+
+	validate := New()
+
+	for i, test := range tests {
+
+		errs := validate.Var(test.param, "sha512")
+
+		if test.expected {
+			if !IsEqual(errs, nil) {
+				t.Fatalf("Index: %d SHA512 failed Error: %s", i, errs)
+			}
+		} else {
+			if IsEqual(errs, nil) {
+				t.Fatalf("Index: %d SHA512 failed Error: %s", i, errs)
+			} else {
+				val := getError(errs, "", "")
+				if val.Tag() != "sha512" {
+					t.Fatalf("Index: %d SHA512 failed Error: %s", i, errs)
+				}
+			}
+		}
+	}
+}
+
+func TestRIPEMD128Validation(t *testing.T) {
+	tests := []struct {
+		param    string
+		expected bool
+	}{
+		{"", false},
+		{"6f5902ac237024bdd0c176cb93063dc4", true},
+		{"6f5902ac237024bdd0c176cb93063dc-", false},
+		{"6f5902ac237024bdd0c176cb93063dc41", false},
+		{"6f5902ac237024bdd0c176cb93063dcC", false},
+		{"6f5902ac237024bdd0c176cb93063dc", false},
+	}
+
+	validate := New()
+
+	for i, test := range tests {
+
+		errs := validate.Var(test.param, "ripemd128")
+
+		if test.expected {
+			if !IsEqual(errs, nil) {
+				t.Fatalf("Index: %d RIPEMD128 failed Error: %s", i, errs)
+			}
+		} else {
+			if IsEqual(errs, nil) {
+				t.Fatalf("Index: %d RIPEMD128 failed Error: %s", i, errs)
+			} else {
+				val := getError(errs, "", "")
+				if val.Tag() != "ripemd128" {
+					t.Fatalf("Index: %d RIPEMD128 failed Error: %s", i, errs)
+				}
+			}
+		}
+	}
+}
+
+func TestRIPEMD160Validation(t *testing.T) {
+	tests := []struct {
+		param    string
+		expected bool
+	}{
+		{"", false},
+		{"6f5902ac6f5902ac237024bdd0c176cb93063dc4", true},
+		{"6f5902ac6f5902ac237024bdd0c176cb93063dc-", false},
+		{"6f5902ac6f5902ac237024bdd0c176cb93063dc41", false},
+		{"6f5902ac6f5902ac237024bdd0c176cb93063dcC", false},
+		{"6f5902ac6f5902ac237024bdd0c176cb93063dc", false},
+	}
+
+	validate := New()
+
+	for i, test := range tests {
+
+		errs := validate.Var(test.param, "ripemd160")
+
+		if test.expected {
+			if !IsEqual(errs, nil) {
+				t.Fatalf("Index: %d RIPEMD160 failed Error: %s", i, errs)
+			}
+		} else {
+			if IsEqual(errs, nil) {
+				t.Fatalf("Index: %d RIPEMD160 failed Error: %s", i, errs)
+			} else {
+				val := getError(errs, "", "")
+				if val.Tag() != "ripemd160" {
+					t.Fatalf("Index: %d RIPEMD160 failed Error: %s", i, errs)
+				}
+			}
+		}
+	}
+}
+
+func TestTIGER128Validation(t *testing.T) {
+	tests := []struct {
+		param    string
+		expected bool
+	}{
+		{"", false},
+		{"6f5902ac237024bdd0c176cb93063dc4", true},
+		{"6f5902ac237024bdd0c176cb93063dc-", false},
+		{"6f5902ac237024bdd0c176cb93063dc41", false},
+		{"6f5902ac237024bdd0c176cb93063dcC", false},
+		{"6f5902ac237024bdd0c176cb93063dc", false},
+	}
+
+	validate := New()
+
+	for i, test := range tests {
+
+		errs := validate.Var(test.param, "tiger128")
+
+		if test.expected {
+			if !IsEqual(errs, nil) {
+				t.Fatalf("Index: %d TIGER128 failed Error: %s", i, errs)
+			}
+		} else {
+			if IsEqual(errs, nil) {
+				t.Fatalf("Index: %d TIGER128 failed Error: %s", i, errs)
+			} else {
+				val := getError(errs, "", "")
+				if val.Tag() != "tiger128" {
+					t.Fatalf("Index: %d TIGER128 failed Error: %s", i, errs)
+				}
+			}
+		}
+	}
+}
+
+func TestTIGER160Validation(t *testing.T) {
+	tests := []struct {
+		param    string
+		expected bool
+	}{
+		{"", false},
+		{"6f5902ac6f5902ac237024bdd0c176cb93063dc4", true},
+		{"6f5902ac6f5902ac237024bdd0c176cb93063dc-", false},
+		{"6f5902ac6f5902ac237024bdd0c176cb93063dc41", false},
+		{"6f5902ac6f5902ac237024bdd0c176cb93063dcC", false},
+		{"6f5902ac6f5902ac237024bdd0c176cb93063dc", false},
+	}
+
+	validate := New()
+
+	for i, test := range tests {
+
+		errs := validate.Var(test.param, "tiger160")
+
+		if test.expected {
+			if !IsEqual(errs, nil) {
+				t.Fatalf("Index: %d TIGER160 failed Error: %s", i, errs)
+			}
+		} else {
+			if IsEqual(errs, nil) {
+				t.Fatalf("Index: %d TIGER160 failed Error: %s", i, errs)
+			} else {
+				val := getError(errs, "", "")
+				if val.Tag() != "tiger160" {
+					t.Fatalf("Index: %d TIGER160 failed Error: %s", i, errs)
+				}
+			}
+		}
+	}
+}
+
+func TestTIGER192Validation(t *testing.T) {
+	tests := []struct {
+		param    string
+		expected bool
+	}{
+		{"", false},
+		{"6f5902ac237024bd6f5902ac237024bdd0c176cb93063dc4", true},
+		{"6f5902ac237024bd6f5902ac237024bdd0c176cb93063dc-", false},
+		{"6f5902ac237024bd6f5902ac237024bdd0c176cb93063dc41", false},
+		{"6f5902ac237024bd6f5902ac237024bdd0c176cb93063dcC", false},
+		{"6f5902ac237024bd6f5902ac237024bdd0c176cb93063dc", false},
+	}
+
+	validate := New()
+
+	for i, test := range tests {
+
+		errs := validate.Var(test.param, "tiger192")
+
+		if test.expected {
+			if !IsEqual(errs, nil) {
+				t.Fatalf("Index: %d TIGER192 failed Error: %s", i, errs)
+			}
+		} else {
+			if IsEqual(errs, nil) {
+				t.Fatalf("Index: %d TIGER192 failed Error: %s", i, errs)
+			} else {
+				val := getError(errs, "", "")
+				if val.Tag() != "tiger192" {
+					t.Fatalf("Index: %d TIGER192 failed Error: %s", i, errs)
+				}
+			}
+		}
+	}
+}
+
 func TestISBNValidation(t *testing.T) {
 	tests := []struct {
 		param    string
@@ -5018,6 +5377,28 @@ func TestIsEqFieldValidation(t *testing.T) {
 
 	timeDurationOmitemptyTest := &TimeDurationOmitemptyTest{time.Duration(0), time.Hour}
 	errs = validate.Struct(timeDurationOmitemptyTest)
+	Equal(t, errs, nil)
+}
+
+func TestIsEqFieldValidationWithAliasTime(t *testing.T) {
+	var errs error
+	validate := New()
+
+	type CustomTime time.Time
+
+	type Test struct {
+		Start CustomTime `validate:"eqfield=End"`
+		End   *time.Time
+	}
+
+	now := time.Now().UTC()
+
+	sv := &Test{
+		Start: CustomTime(now),
+		End:   &now,
+	}
+
+	errs = validate.Struct(sv)
 	Equal(t, errs, nil)
 }
 
@@ -9151,6 +9532,7 @@ func TestHostnameRFC1123Validation(t *testing.T) {
 		{"test.example24.com.", false},
 		{"test24.example24.com.", false},
 		{"example.", false},
+		{"test_example", false},
 		{"192.168.0.1", true},
 		{"email@example.com", false},
 		{"2001:cdba:0000:0000:0000:0000:3257:9652", false},
@@ -9199,6 +9581,7 @@ func TestHostnameRFC1123AliasValidation(t *testing.T) {
 		{"test.example24.com.", false},
 		{"test24.example24.com.", false},
 		{"example.", false},
+		{"test_example", false},
 		{"192.168.0.1", true},
 		{"email@example.com", false},
 		{"2001:cdba:0000:0000:0000:0000:3257:9652", false},
@@ -10675,6 +11058,145 @@ func TestRequiredWithoutAll(t *testing.T) {
 	AssertError(t, errs, "Field2", "Field2", "Field2", "Field2", "required_without_all")
 }
 
+func TestExcludedIf(t *testing.T) {
+	validate := New()
+	type Inner struct {
+		Field *string
+	}
+
+	test1 := struct {
+		FieldE  string  `validate:"omitempty" json:"field_e"`
+		FieldER *string `validate:"excluded_if=FieldE test" json:"field_er"`
+	}{
+		FieldE: "test",
+	}
+	errs := validate.Struct(test1)
+	Equal(t, errs, nil)
+
+	test2 := struct {
+		FieldE  string `validate:"omitempty" json:"field_e"`
+		FieldER string `validate:"excluded_if=FieldE test" json:"field_er"`
+	}{
+		FieldE: "notest",
+	}
+	errs = validate.Struct(test2)
+	NotEqual(t, errs, nil)
+	ve := errs.(ValidationErrors)
+	Equal(t, len(ve), 1)
+	AssertError(t, errs, "FieldER", "FieldER", "FieldER", "FieldER", "excluded_if")
+
+	shouldError := "shouldError"
+	test3 := struct {
+		Inner  *Inner
+		FieldE string `validate:"omitempty" json:"field_e"`
+		Field1 int    `validate:"excluded_if=Inner.Field test" json:"field_1"`
+	}{
+		Inner: &Inner{Field: &shouldError},
+	}
+	errs = validate.Struct(test3)
+	NotEqual(t, errs, nil)
+	ve = errs.(ValidationErrors)
+	Equal(t, len(ve), 1)
+	AssertError(t, errs, "Field1", "Field1", "Field1", "Field1", "excluded_if")
+
+	shouldPass := "test"
+	test4 := struct {
+		Inner  *Inner
+		FieldE string `validate:"omitempty" json:"field_e"`
+		Field1 int    `validate:"excluded_if=Inner.Field test" json:"field_1"`
+	}{
+		Inner: &Inner{Field: &shouldPass},
+	}
+	errs = validate.Struct(test4)
+	Equal(t, errs, nil)
+
+	// Checks number of params in struct tag is correct
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("panicTest should have panicked!")
+		}
+	}()
+	fieldVal := "panicTest"
+	panicTest := struct {
+		Inner  *Inner
+		Field1 string `validate:"excluded_if=Inner.Field" json:"field_1"`
+	}{
+		Inner: &Inner{Field: &fieldVal},
+	}
+	_ = validate.Struct(panicTest)
+}
+
+func TestExcludedUnless(t *testing.T) {
+	validate := New()
+	type Inner struct {
+		Field *string
+	}
+
+	fieldVal := "test"
+	test := struct {
+		FieldE  string `validate:"omitempty" json:"field_e"`
+		FieldER string `validate:"excluded_unless=FieldE test" json:"field_er"`
+	}{
+		FieldE:  "notest",
+		FieldER: "filled",
+	}
+	errs := validate.Struct(test)
+	Equal(t, errs, nil)
+
+	test2 := struct {
+		FieldE  string `validate:"omitempty" json:"field_e"`
+		FieldER string `validate:"excluded_unless=FieldE test" json:"field_er"`
+	}{
+		FieldE:  "test",
+		FieldER: "filled",
+	}
+	errs = validate.Struct(test2)
+	NotEqual(t, errs, nil)
+	ve := errs.(ValidationErrors)
+	Equal(t, len(ve), 1)
+	AssertError(t, errs, "FieldER", "FieldER", "FieldER", "FieldER", "excluded_unless")
+
+	shouldError := "test"
+	test3 := struct {
+		Inner  *Inner
+		Field1 string `validate:"excluded_unless=Inner.Field test" json:"field_1"`
+	}{
+		Inner:  &Inner{Field: &shouldError},
+		Field1: "filled",
+	}
+	errs = validate.Struct(test3)
+	NotEqual(t, errs, nil)
+	ve = errs.(ValidationErrors)
+	Equal(t, len(ve), 1)
+	AssertError(t, errs, "Field1", "Field1", "Field1", "Field1", "excluded_unless")
+
+	shouldPass := "shouldPass"
+	test4 := struct {
+		Inner  *Inner
+		FieldE string `validate:"omitempty" json:"field_e"`
+		Field1 string `validate:"excluded_unless=Inner.Field test" json:"field_1"`
+	}{
+		Inner:  &Inner{Field: &shouldPass},
+		Field1: "filled",
+	}
+	errs = validate.Struct(test4)
+	Equal(t, errs, nil)
+
+	// Checks number of params in struct tag is correct
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("panicTest should have panicked!")
+		}
+	}()
+	panicTest := struct {
+		Inner  *Inner
+		Field1 string `validate:"excluded_unless=Inner.Field" json:"field_1"`
+	}{
+		Inner: &Inner{Field: &fieldVal},
+	}
+	_ = validate.Struct(panicTest)
+}
+
 func TestLookup(t *testing.T) {
 	type Lookup struct {
 		FieldA *string `json:"fieldA,omitempty" validate:"required_without=FieldB"`
@@ -11460,7 +11982,7 @@ func TestSemverFormatValidation(t *testing.T) {
 		}
 	}
 }
-  
+
 func TestRFC1035LabelFormatValidation(t *testing.T) {
 	tests := []struct {
 		value    string `validate:"dns_rfc1035_label"`
@@ -11611,3 +12133,156 @@ func TestPostCodeByIso3166Alpha2Field_InvalidKind(t *testing.T) {
 	_ = New().Struct(test{"ABC", 123, false})
 	t.Errorf("Didn't panic as expected")
 }
+
+func TestValidate_ValidateMapCtx(t *testing.T) {
+
+	type args struct {
+		data  map[string]interface{}
+		rules map[string]interface{}
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{
+			name: "test nested map in slice",
+			args: args{
+				data: map[string]interface{}{
+					"Test_A": map[string]interface{}{
+						"Test_B": "Test_B",
+						"Test_C": []map[string]interface{}{
+							{
+								"Test_D": "Test_D",
+							},
+						},
+						"Test_E": map[string]interface{}{
+							"Test_F": "Test_F",
+						},
+					},
+				},
+				rules: map[string]interface{}{
+					"Test_A": map[string]interface{}{
+						"Test_B": "min=2",
+						"Test_C": map[string]interface{}{
+							"Test_D": "min=2",
+						},
+						"Test_E": map[string]interface{}{
+							"Test_F": "min=2",
+						},
+					},
+				},
+			},
+			want: 0,
+		},
+
+		{
+			name: "test nested map error",
+			args: args{
+				data: map[string]interface{}{
+					"Test_A": map[string]interface{}{
+						"Test_B": "Test_B",
+						"Test_C": []interface{}{"Test_D"},
+						"Test_E": map[string]interface{}{
+							"Test_F": "Test_F",
+						},
+						"Test_G": "Test_G",
+						"Test_I": []map[string]interface{}{
+							{
+								"Test_J": "Test_J",
+							},
+						},
+					},
+				},
+				rules: map[string]interface{}{
+					"Test_A": map[string]interface{}{
+						"Test_B": "min=2",
+						"Test_C": map[string]interface{}{
+							"Test_D": "min=2",
+						},
+						"Test_E": map[string]interface{}{
+							"Test_F": "min=100",
+						},
+						"Test_G": map[string]interface{}{
+							"Test_H": "min=2",
+						},
+						"Test_I": map[string]interface{}{
+							"Test_J": "min=100",
+						},
+					},
+				},
+			},
+			want: 1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			validate := New()
+			if got := validate.ValidateMapCtx(context.Background(), tt.args.data, tt.args.rules); len(got) != tt.want {
+				t.Errorf("ValidateMapCtx() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestCreditCardFormatValidation(t *testing.T) {
+	tests := []struct {
+		value    string `validate:"credit_card"`
+		tag      string
+		expected bool
+	}{
+		{"586824160825533338", "credit_card", true},
+		{"586824160825533328", "credit_card", false},
+		{"4624748233249780", "credit_card", true},
+		{"4624748233349780", "credit_card", false},
+		{"378282246310005", "credit_card", true},
+		{"378282146310005", "credit_card", false},
+		{"4624 7482 3324 9780", "credit_card", true},
+		{"4624 7482 3324  9780", "credit_card", false},
+	}
+
+	validate := New()
+
+	for i, test := range tests {
+		errs := validate.Var(test.value, test.tag)
+
+		if test.expected {
+			if !IsEqual(errs, nil) {
+				t.Fatalf("Index: %d credit_card failed Error: %s", i, errs)
+			}
+		} else {
+			if IsEqual(errs, nil) {
+				t.Fatalf("Index: %d credit_card failed Error: %s", i, errs)
+			} else {
+				val := getError(errs, "", "")
+				if val.Tag() != "credit_card" {
+					t.Fatalf("Index: %d credit_card failed Error: %s", i, errs)
+				}
+			}
+		}
+	}
+}
+
+func TestMultiOrOperatorGroup(t *testing.T) {
+ 	tests := []struct {
+ 		Value    int `validate:"eq=1|gte=5,eq=1|lt=7"`
+ 		expected bool
+ 	}{
+ 		{1, true}, {2, false}, {5, true}, {6, true}, {8, false},
+ 	}
+
+ 	validate := New()
+
+ 	for i, test := range tests {
+ 		errs := validate.Struct(test)
+ 		if test.expected {
+ 			if !IsEqual(errs, nil) {
+ 				t.Fatalf("Index: %d multi_group_of_OR_operators failed Error: %s", i, errs)
+ 			}
+ 		} else {
+ 			if IsEqual(errs, nil) {
+ 				t.Fatalf("Index: %d multi_group_of_OR_operators should have errs", i)
+ 			}
+ 		}
+ 	}
+ }

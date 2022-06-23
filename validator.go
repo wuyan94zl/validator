@@ -166,7 +166,7 @@ func (v *validate) traverseField(ctx context.Context, parent reflect.Value, curr
 
 		typ = current.Type()
 
-		if typ != timeType {
+		if !typ.ConvertibleTo(timeType) {
 
 			if ct != nil {
 
@@ -358,6 +358,10 @@ OUTER:
 				v.ct = ct
 
 				if ct.fn(ctx, v) {
+					if ct.isBlockEnd {
+						ct = ct.next
+						continue OUTER
+					}
 
 					// drain rest of the 'or' values, then continue or leave
 					for {
@@ -369,6 +373,11 @@ OUTER:
 						}
 
 						if ct.typeof != typeOr {
+							continue OUTER
+						}
+
+						if ct.isBlockEnd {
+							ct = ct.next
 							continue OUTER
 						}
 					}
